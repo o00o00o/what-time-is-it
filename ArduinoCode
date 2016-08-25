@@ -6,6 +6,16 @@
 #define fourMinutes 240000
 #define minutesInHour 60
 
+//Pin connected to ST_CP of 74HC595
+int latchPin = 8;
+//Pin connected to SH_CP of 74HC595
+int clockPin = 12;
+////Pin connected to DS of 74HC595
+int dataPin = 11;
+
+//holder for infromation you're going to pass to shifting function
+byte data = 0; 
+
 void setup() {
 
   int minuteIndex = 0;
@@ -21,6 +31,11 @@ void setup() {
 }
 
 void loop() {
+
+  int minuteIndex = 0;
+  //hour Index starts at 24, since the first 24 are assigned to minutes
+  int hourIndex = 24;
+  int count;
 
   for (count = 0; count < 12; count++){
 
@@ -49,10 +64,8 @@ void loop() {
   }
 
   digitalWrite(latchPin, 0);
-  digitalWriteShiftPinA(hourIndex);
+  lightShiftPinA(hourIndex);
   digitalWrite(latchPin, 1);
-
-  }
 }
 
 //This function uses bitwise math to move the pins up
